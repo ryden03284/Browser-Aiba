@@ -37,8 +37,7 @@ cd "$REPO_DIR"
 
 echo ""
 echo "[3/9] Verifying repository structure..."
-
-if [ ! -f "./getsrc.sh" ]; then
+if [ ! -f ./getsrc.sh ]; then
     echo "ERROR: getsrc.sh not found!"
     echo "Repository structure is invalid or outdated."
     ls -lah
