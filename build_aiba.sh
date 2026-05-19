@@ -14,11 +14,18 @@ echo "=========================================="
 echo ""
 
 # Step 1: Source Code Fetching
+# Step 1: Source Code Fetching
 echo "[1/9] Checking for ungoogled-chromium repository..."
+
+# If we are in GitHub Actions (CI), always force a fresh start
+if [ "$CI" = "true" ]; then
+    echo "CI environment detected. Cleaning existing directory to ensure fresh build..."
+    rm -rf "$REPO_DIR"
+fi
 
 if [ ! -d "$REPO_DIR" ]; then
     echo "Repository not found. Cloning from GitHub..."
-    git clone --depth=1 "$REPO_URL"
+    git clone "$REPO_URL"
     echo "Repository cloned successfully."
 else
     echo "Repository already exists. Skipping clone."
