@@ -28,29 +28,33 @@ echo "[2/6] Entering repository directory..."
 cd "$REPO_DIR"
 
 echo ""
-echo "[3/6] Downloading Chromium source code..."
+echo "[3/6] Creating download cache directory..."
+mkdir -p download_cache
+
+echo ""
+echo "[4/6] Downloading Chromium source code..."
 python3 utils/downloads.py retrieve -i downloads.ini -c download_cache
 
 echo ""
-echo "[4/6] Extracting Chromium source code..."
+echo "[5/6] Extracting Chromium source code..."
 python3 utils/downloads.py unpack -i downloads.ini -c download_cache build/src
 
 # Step 2: Image Processing and Branding
 echo ""
-echo "[5/6] Running setup_aiba.py for icon processing and branding..."
+echo "[6/7] Running setup_aiba.py for icon processing and branding..."
 cd "$SCRIPT_DIR"
 python3 setup_aiba.py
 
 # Step 3: Apply Privacy Features and Custom Branding
 echo ""
-echo "[6/6] Applying privacy features and custom patches..."
+echo "[7/8] Applying privacy features and custom patches..."
 cd "$REPO_DIR"
 python3 utils/prune_binaries.py
 python3 utils/patches.py apply build/src patches
 
 # Step 4: Configure Build with Optimized Settings
 echo ""
-echo "[7/7] Configuring build with GN (optimized for 10GB RAM)..."
+echo "[8/9] Configuring build with GN (optimized for 10GB RAM)..."
 cd build/src
 
 # Create args.gn with concurrent_links=1 to prevent OOM
@@ -74,7 +78,7 @@ gn gen out/Default
 
 # Step 5: Compile with Optimized Settings
 echo ""
-echo "[8/8] Starting compilation with nice -n 19 and -j4..."
+echo "[9/9] Starting compilation with nice -n 19 and -j4..."
 echo "This will use all 4 CPU cores with low priority to prevent desktop freezing."
 echo "Build time may take several hours depending on your system."
 echo ""
