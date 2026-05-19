@@ -24,9 +24,13 @@ jobs:
       - name: 2. Install Linux Build Utilities
         run: |
           sudo apt-get update
+          # Install gn directly from the official Ubuntu repositories
           sudo apt-get install -y \
             python3 python3-pip ninja-build build-essential clang lld bison gperf \
-            curl wget flex perl pkg-config zip unzip xz-utils ca-certificates nodejs git
+            curl wget flex perl pkg-config zip unzip xz-utils ca-certificates nodejs git gn
+          
+          # Verify gn is installed
+          gn --version
           
           # Install latest GN
           wget -O gn.zip https://chrome-infra-packages.appspot.com/dl/gn/git_unzipped/linux-amd64/+/latest
